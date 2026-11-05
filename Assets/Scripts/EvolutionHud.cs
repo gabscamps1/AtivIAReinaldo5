@@ -40,6 +40,7 @@ public sealed class EvolutionHud : MonoBehaviour
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Validar (3 cenarios)")) manager.RunValidation();
         if (GUILayout.Button("Retomar treino")) manager.ResumeTraining();
+        if (GUILayout.Button("Abrir pasta JSON")) manager.OpenExportFolder();
         GUILayout.EndHorizontal();
 
         GUILayout.Space(6);

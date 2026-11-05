@@ -239,7 +239,8 @@ public sealed class EvolutionManager : MonoBehaviour
         };
 
         GenomeStore.Save(snapshot);
-        Say($"Melhor genoma salvo: seed {snapshot.seed}, geracao {snapshot.generation}, fitness {snapshot.bestFitness:F2}.");
+        string exportMessage = GenomeStore.ExportToFile(snapshot);
+        Say($"Melhor genoma salvo: seed {snapshot.seed}, geracao {snapshot.generation}, fitness {snapshot.bestFitness:F2}. {exportMessage}");
     }
 
     public void LoadBestAndReplay()
@@ -265,7 +266,13 @@ public sealed class EvolutionManager : MonoBehaviour
 
     public void DeleteSave()
     {
+        // Apaga só o PlayerPrefs; o arquivo .json exportado continua como backup.
         Say(GenomeStore.Delete());
+    }
+
+    public void OpenExportFolder()
+    {
+        Say(GenomeStore.OpenExportFolder());
     }
 
     public void ResumeTraining()

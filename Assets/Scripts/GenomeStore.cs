@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -75,6 +76,59 @@ public static class GenomeStore
         snapshot = loaded;
         message = "OK";
         return true;
+    }
+
+    // ------------------------------------------------------------------
+    // Exportação para arquivo .json (cópia de fácil acesso, além do PlayerPrefs)
+    // ------------------------------------------------------------------
+    public const string ExportFileName = "best-genome.json";
+
+    /// <summary>
+    /// No Editor: pasta GenomeExports na raiz do projeto (ao lado de Assets).
+    /// Em build: pasta GenomeExports dentro de Application.persistentDataPath.
+    /// </summary>
+    public static string ExportFolder
+    {
+        get
+        {
+#if UNITY_EDITOR
+            return Path.GetFullPath(Path.Combine(Application.dataPath, "..", "GenomeExports"));
+#else
+            return Path.Combine(Application.persistentDataPath, "GenomeExports");
+#endif
+        }
+    }
+
+    public static string ExportPath => Path.Combine(ExportFolder, ExportFileName);
+
+    /// <summary>Grava o snapshot em JSON formatado. Retorna uma mensagem; nunca lança exceção.</summary>
+    public static string ExportToFile(EvolutionSnapshot snapshot)
+    {
+        try
+        {
+            Directory.CreateDirectory(ExportFolder);
+            File.WriteAllText(ExportPath, JsonUtility.ToJson(snapshot, true));
+            return $"JSON exportado em: {ExportPath}";
+        }
+        catch (Exception e)
+        {
+            return $"Não foi possível exportar o JSON: {e.Message}";
+        }
+    }
+
+    /// <summary>Abre a pasta do arquivo exportado no explorador do sistema.</summary>
+    public static string OpenExportFolder()
+    {
+        try
+        {
+            Directory.CreateDirectory(ExportFolder);
+            Application.OpenURL(new Uri(ExportFolder).AbsoluteUri);
+            return $"Pasta aberta: {ExportFolder}";
+        }
+        catch (Exception e)
+        {
+            return $"Não foi possível abrir a pasta ({ExportFolder}): {e.Message}";
+        }
     }
 
     public static string Delete()
