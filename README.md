@@ -1,4 +1,8 @@
 Neuroevolução - Unity 6 (Aula 05, versão experimental)
+Feito por:
+Rodrigo Mamede Laurino
+Gabriel de Campos
+Nos acabamos fazendo o trabalho em dupla pois já estavamos trabalhando nele juntos em aula.
 
 Rede neural 3-4-2 (26 pesos) evoluída por algoritmo genético, sem backpropagation. Compara a "nave" com uma rota de referência (linha verde na cena), valida o melhor genoma em três cenários fora do treino e salva/carrega o melhor genoma.
 
